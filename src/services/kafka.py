@@ -1,8 +1,7 @@
 from confluent_kafka import Producer
-import json
-from typing import Dict
 import logging
 
+from src.models import Event
 from src.config.settings import settings
 
 logger = logging.getLogger(__name__)
@@ -24,9 +23,9 @@ def delivery_report(err, msg):
         logger.info(f"Сообщение отправлено к {msg.topic()} [{msg.partition()}]")
 
 
-def send_event_to_kafka(event: Dict):
+def send_event_to_kafka(event: Event):
     try:
-        data = json.dumps(event).encode("utf-8")
+        data = event.json().encode("utf-8")
         producer.produce(settings.kafka_topic, value=data, callback=delivery_report)
         producer.flush()
     except Exception as e:
