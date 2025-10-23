@@ -13,8 +13,8 @@ router = APIRouter(prefix="/app", tags=["APP"])
 @router.post("/event")
 async def produce_event(event: Event):
     try:
-        logger.info(f"Received event: {event.model_dump()}")
-        send_event_to_kafka(event.model_dump())
+        logger.info(f"Received event: {event.json()}")
+        send_event_to_kafka(event)
         return {"status": "ok", "message": "Event отправлен в kafka"}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
