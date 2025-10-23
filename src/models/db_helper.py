@@ -1,5 +1,4 @@
 from typing import AsyncGenerator
-import logging
 from sqlalchemy.ext.asyncio import (
     create_async_engine,
     AsyncEngine,
@@ -21,6 +20,7 @@ class DatabaseHelper:
             max_overflow: int = 10,
             pool_size: int = 5,
     ) -> None:
+        self.url = url
         self.engine: AsyncEngine = create_async_engine(
             url=url,
             echo=echo,
