@@ -7,6 +7,7 @@ from fastapi import FastAPI
 from src.models.db_helper import db_helper, DatabaseHelper
 from src.models import Base
 from src.api.producer import router as event_router
+from src.api.metrics import router as metric_router
 from src.consumers import RawConsumer
 from src.config.settings import settings
 
@@ -34,6 +35,7 @@ app = FastAPI(
 )
 
 app.include_router(event_router)
+app.include_router(metric_router)
 
 
 @app.get("/")
