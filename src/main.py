@@ -7,6 +7,7 @@ from fastapi import FastAPI
 from src.models.db_helper import db_helper, DatabaseHelper
 from src.models import Base
 from src.api.producer import router as event_router
+from src.consumers import RawConsumer
 from src.config.settings import settings
 
 
@@ -20,7 +21,9 @@ async def lifespan(app: FastAPI):
     async with db_helper.engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
 
+    consumer_task = asyncio.create_task(RawConsumer(topic="events", group_id="api_consumer").start())
     yield
+    consumer_task.cancel()
     # shutdown
     await db_helper.dispose()
 
