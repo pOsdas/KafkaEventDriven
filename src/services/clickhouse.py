@@ -27,16 +27,16 @@ class ClickHouseClient:
         """)
         logger.info("[ClickHouse] Таблица analytics_events готова")
 
-    def insert_event(self, event_id: str, event_type: str, payload: str):
-        self.client.execute(
-            "INSERT INTO analytics_events (event_id, event_type, payload) VALUES",
-            [(event_id, event_type, payload)]
-        )
-        logger.info(f"[ClickHouse] Событие {event_id} сохранено")
-
-    def get_recent_events(self, limit: int = 10):
-        rows = self.client.execute(f"SELECT * FROM analytics_events ORDER BY created_at DESC LIMIT {limit}")
-        return rows
+    def insert_event(self, table: str, data: dict):
+        try:
+            columns = ", ".join(data.keys())
+            values = tuple(data.values())
+            self.client.execute(
+                f"INSERT INTO {table} ({columns}) VALUES", [values]
+            )
+            logger.info(f"Записано событие в ClickHouse ({table}): {data}")
+        except Exception as e:
+            logger.error(f"Ошибка записи в ClickHouse: {e}")
 
 
 clickhouse = ClickHouseClient()

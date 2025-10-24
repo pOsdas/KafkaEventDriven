@@ -1,0 +1,75 @@
+{
+  "annotations": {
+    "list": []
+  },
+  "panels": [
+    {
+      "type": "stat",
+      "title": "💡 Обработано событий",
+      "targets": [
+        {
+          "expr": "events_processed_total",
+          "legendFormat": "processed",
+          "interval": ""
+        }
+      ],
+      "id": 1,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      }
+    },
+    {
+      "type": "stat",
+      "title": "🔥 Ошибки обработки",
+      "targets": [
+        {
+          "expr": "events_failed_total",
+          "legendFormat": "failed",
+          "interval": ""
+        }
+      ],
+      "id": 2,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      }
+    },
+    {
+      "type": "graph",
+      "title": "📈 События во времени",
+      "targets": [
+        {
+          "expr": "increase(events_processed_total[1m])",
+          "legendFormat": "processed/min",
+          "interval": ""
+        }
+      ],
+      "id": 3,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      }
+    },
+    {
+      "type": "graph",
+      "title": "⏱️ Ошибки во времени",
+      "targets": [
+        {
+          "expr": "increase(events_failed_total[1m])",
+          "legendFormat": "failed/min",
+          "interval": ""
+        }
+      ],
+      "id": 4,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "prometheus"
+      }
+    }
+  ],
+  "schemaVersion": 37,
+  "title": "Kafka Event Service Dashboard",
+  "uid": "kafka-event-dashboard",
+  "version": 1
+}

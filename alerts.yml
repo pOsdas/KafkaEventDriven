@@ -1,0 +1,20 @@
+groups:
+  - name: KafkaEventAlerts
+    rules:
+      - alert: TooManyKafkaErrors
+        expr: increase(events_failed_total[5m]) > 5
+        for: 2m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Слишком много ошибок Kafka за последние 5 минут"
+          description: "Обнаружено более 5 ошибок Kafka Consumer/Producer"
+
+      - alert: NoKafkaEvents
+        expr: increase(events_processed_total[10m]) == 0
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Нет входящих событий от Kafka"
+          description: "В течение 10 минут не было обработано ни одного события"

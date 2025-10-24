@@ -6,6 +6,7 @@ from src.services.metrics import events_processed_total, events_failed_total
 from src.models import AnalyticsEvent
 from src.models.db_helper import db_helper
 from src.consumers.base_consumer import BaseConsumer
+from src.services.redis_store import redis_store
 from src.server_logger import logger
 
 
